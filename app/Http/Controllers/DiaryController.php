@@ -16,12 +16,15 @@ class DiaryController extends Controller
             ->get();
 
         $ratingTotal = 0;
+        $entryCount = \count($diaryEntries);
 
         foreach ($diaryEntries as $diaryEntry) {
             $ratingTotal += \intval(Crypt::decryptString($diaryEntry->rating));
         }
 
-        return view('home', ['entries' => $diaryEntries, 'average' => $ratingTotal / \count($diaryEntries)]);
+        $average = ($entryCount > 0) ? $ratingTotal / $entryCount : 0;
+
+        return view('home', ['entries' => $diaryEntries, 'average' => $average]);
     }
 
     public function detail(DiaryEntry $entry)
