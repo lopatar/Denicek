@@ -49,7 +49,7 @@ class DiaryController extends Controller
         $data['rating'] = Crypt::encryptString($data['rating']);
 
         $entry->update($data);
-        return back();
+        return redirect()->route('home');
     }
 
     public function store(Request $request)
