@@ -64,9 +64,9 @@ class DiaryController extends Controller
         $data['description'] = Crypt::encryptString($data['description']);
         $data['rating'] = Crypt::encryptString($data['rating']);
 
-        auth()->user()->diaryEntries()->create($data);
+        $created = auth()->user()->diaryEntries()->create($data);
 
-        return back();
+        return redirect("/entry/$created->id");
     }
 
     public function destroy(DiaryEntry $entry)
