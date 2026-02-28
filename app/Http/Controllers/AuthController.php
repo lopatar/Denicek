@@ -15,7 +15,7 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
+ 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
              $request->session()->regenerate();
              return redirect()->intended('/');
@@ -35,7 +35,7 @@ class AuthController extends Controller
         ]);
 
         if (User::where('email', $credentials['email'])->exists())
-        {
+        { 
             return back();
         }
 
