@@ -15,7 +15,13 @@ class DiaryController extends Controller
             ->where('user_id', auth()->user()->id)
             ->get();
 
-        return view('home', ['entries' => $diaryEntries]);
+        $ratingTotal = 0;
+
+        foreach ($diaryEntries as $diaryEntry) {
+            $ratingTotal += \intval(Crypt::decryptString($diaryEntry->rating));
+        }
+
+        return view('home', ['entries' => $diaryEntries, 'average' => $ratingTotal / \count($diaryEntries)]);
     }
 
     public function detail(DiaryEntry $entry)
