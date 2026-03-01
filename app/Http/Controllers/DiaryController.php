@@ -84,9 +84,8 @@ class DiaryController extends Controller
             $fileContent = Crypt::encrypt($file->get());
             $filePath = 'files/' . $file->hashName();
             Storage::put($filePath, $fileContent);
+            $data['uploaded_file'] = Crypt::encryptString($filePath);
         }
-
-        $data['uploaded_file'] = Crypt::encryptString($filePath);
 
         $created = auth()->user()->diaryEntries()->create($data);
 
