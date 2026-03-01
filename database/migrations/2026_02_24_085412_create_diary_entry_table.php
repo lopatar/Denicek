@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->isNotEmpty();
             $table->text('rating')->isNotEmpty();
             $table->timestamps();
-        });
+        });       
     }
 
     /**

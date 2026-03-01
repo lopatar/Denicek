@@ -11,6 +11,7 @@ class DiaryEntry extends Model
         'title',
         'description',
         'rating',
+        'uploaded_file'
     ];
 
     public function user(): BelongsTo

@@ -83,6 +83,9 @@
             </div>
 
         </form>
+        @if($entry->uploaded_file !== null)
+        <a href="/entry/{{ $entry->id }}/file">Přiložený soubor</a>
+        @endif
     </div>
 
 </main>

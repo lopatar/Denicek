@@ -42,7 +42,7 @@
             <div class="lg:col-span-1">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 sticky top-8">
                     <h2 class="text-lg font-bold mb-4 text-gray-800">Nový záznam</h2>
-                    <form method="POST" action="/entry" class="space-y-4">
+                    <form method="POST" action="/entry" class="space-y-4" enctype="multipart/form-data">
                         @csrf
                         <div>
                             <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Titulek</label>
@@ -64,6 +64,11 @@
                             <textarea rows="4" name="description" placeholder="Podrobnosti..."
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
                                 required></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Soubor</label>                       
+                            <input type="file" name="uploaded_file" accept="image/png,image/jpg,image/jpeg"/>
                         </div>
 
                         <button type="submit"

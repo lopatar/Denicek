@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DiaryEntry;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 
 class DiaryController extends Controller
 {
@@ -52,17 +53,33 @@ class DiaryController extends Controller
         return redirect()->route('home');
     }
 
+    public function file(DiaryEntry $entry)
+    {
+        $this->ensureOwnership($entry);
+
+        $filePath = Crypt::decryptString($entry->uploaded_file);
+        return Storage::download($filePath);
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
-            'rating' => 'required|integer|min:1|max:5'
+            'rating' => 'required|integer|min:1|max:5',
+            'uploaded_file' => 'file'
         ]);
 
         $data['title'] = Crypt::encryptString($data['title']);
         $data['description'] = Crypt::encryptString($data['description']);
         $data['rating'] = Crypt::encryptString($data['rating']);
+        
+        $file = $request->file('uploaded_file');
+
+        if ($file !== null) {
+            $path = $file->store('files');
+            $data['uploaded_file'] = Crypt::encryptString($path);
+        }
 
         $created = auth()->user()->diaryEntries()->create($data);
 

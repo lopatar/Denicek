@@ -15,6 +15,7 @@ Route::middleware('auth')->group(function() {
     
     Route::get('/entry/{entry}', [DiaryController::class, 'detail']);
     Route::post('/entry/{entry}/edit', [DiaryController::class,'update']);
+    Route::get('/entry/{entry}/file', [DiaryController::class,'file']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });
