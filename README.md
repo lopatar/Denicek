@@ -6,8 +6,8 @@ Jednoduchá CRUD Laravel aplikace, která umožňuje uložení důležitých vzp
 - Šifrovaná SQLite DB
 - Možnost nahrání souboru a jejich stáhnutí z detailu záznamu
 
-´´´shell
+```shell
 composer 
 cp .env.example .env
 php artisan serve
-´´´
+```
