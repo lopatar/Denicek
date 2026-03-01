@@ -7,7 +7,7 @@ Jednoduchá CRUD Laravel aplikace, která umožňuje uložení důležitých vzp
 - Možnost nahrání souboru a jejich stáhnutí z detailu záznamu
 
 ```shell
-composer 
+composer install
 cp .env.example .env
 php artisan serve
 ```
