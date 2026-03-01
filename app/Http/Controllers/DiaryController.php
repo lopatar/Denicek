@@ -58,7 +58,11 @@ class DiaryController extends Controller
         $this->ensureOwnership($entry);
 
         $filePath = Crypt::decryptString($entry->uploaded_file);
-        return Storage::download($filePath);
+        $fileName = \explode('/', $filePath)[1];
+
+        return response()->streamDownload(function() use($filePath) {
+            echo Crypt::decrypt(Storage::get($filePath));
+        }, $fileName);
     }
 
     public function store(Request $request)
@@ -75,11 +79,14 @@ class DiaryController extends Controller
         $data['rating'] = Crypt::encryptString($data['rating']);
         
         $file = $request->file('uploaded_file');
-
+        
         if ($file !== null) {
-            $path = $file->store('files');
-            $data['uploaded_file'] = Crypt::encryptString($path);
+            $fileContent = Crypt::encrypt($file->get());
+            $filePath = 'files/' . $file->hashName();
+            Storage::put($filePath, $fileContent);
         }
+
+        $data['uploaded_file'] = Crypt::encryptString($filePath);
 
         $created = auth()->user()->diaryEntries()->create($data);
 
