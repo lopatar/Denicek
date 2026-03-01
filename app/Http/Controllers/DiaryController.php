@@ -22,7 +22,7 @@ class DiaryController extends Controller
             $ratingTotal += \intval(Crypt::decryptString($diaryEntry->rating));
         }
 
-        $average = ($entryCount > 0) ? $ratingTotal / $entryCount : 0;
+        $average = ($entryCount > 0) ? \round($ratingTotal / $entryCount, 1) : 0;
 
         return view('home', ['entries' => $diaryEntries, 'average' => $average]);
     }
