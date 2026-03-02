@@ -47,7 +47,7 @@
                         @csrf
                         <div>
                             <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Titulek</label>
-                            <input type="text" name="title" placeholder="Co se stalo?"
+                            <input type="text" name="title" placeholder="Jaký byl tvůj den?"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                                 required />
                         </div>
