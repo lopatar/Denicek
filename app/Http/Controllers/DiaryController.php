@@ -109,8 +109,17 @@ class DiaryController extends Controller
     public function destroy(DiaryEntry $entry)
     {
         $this->ensureOwnership($entry);
+        
+        /**
+         * @var UploadedFile $file
+         */
+        foreach ($entry->uploadedFiles()->get() as $file)
+        {
+            Storage::delete(Crypt::decryptString($file->file_path));
+        }
 
         $entry->delete();
+
         return back();
     }
 
