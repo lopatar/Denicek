@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UploadedFile;
 use Illuminate\Http\Request;
 use App\Models\DiaryEntry;
 use Illuminate\Support\Facades\Crypt;
@@ -32,7 +33,12 @@ class DiaryController extends Controller
     {
         $this->ensureOwnership($entry);
 
-        return view('detail', ['entry' => $entry]);
+        /**
+         * @var UploadedFile[] $uploadedFiles
+         */
+        $uploadedFiles = $entry->uploadedFiles()->get();
+
+        return view('detail', ['entry' => $entry, 'uploadedFiles' => $uploadedFiles]);
     }
 
     public function update(Request $request, DiaryEntry $entry)
@@ -53,11 +59,10 @@ class DiaryController extends Controller
         return redirect()->route('home');
     }
 
-    public function file(DiaryEntry $entry)
+    public function file(UploadedFile $file)
     {
-        $this->ensureOwnership($entry);
-
-        $filePath = Crypt::decryptString($entry->uploaded_file);
+        $this->ensureOwnership($file->entry()->first());
+        $filePath = Crypt::decryptString($file->file_path);
         $fileName = \explode('/', $filePath)[1];
 
         return response()->streamDownload(function() use($filePath) {
@@ -78,16 +83,25 @@ class DiaryController extends Controller
         $data['description'] = Crypt::encryptString($data['description']);
         $data['rating'] = Crypt::encryptString($data['rating']);
         
-        $file = $request->file('uploaded_file');
+        /**
+         * @var DiaryEntry $created
+         */
+        $created = auth()->user()->diaryEntries()->create($data);
+
+        $file = $request->allFiles();
         
         if ($file !== null) {
-            $fileContent = Crypt::encrypt($file->get());
-            $filePath = 'files/' . $file->hashName();
-            Storage::put($filePath, $fileContent);
-            $data['uploaded_file'] = Crypt::encryptString($filePath);
+            foreach ($file as $f)
+            {
+                $fileContent = Crypt::encrypt($f->get());
+                $filePath = 'files/' . $f->hashName();
+                Storage::put($filePath, $fileContent);
+                $filePath = Crypt::encryptString($filePath);
+                $created->uploadedFiles()->create([
+                    'file_path' => $filePath
+                ]);
+            }
         }
-
-        $created = auth()->user()->diaryEntries()->create($data);
 
         return redirect("/entry/$created->id");
     }

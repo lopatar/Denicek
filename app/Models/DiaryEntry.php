@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 
 class DiaryEntry extends Model
 {
@@ -11,11 +13,15 @@ class DiaryEntry extends Model
         'title',
         'description',
         'rating',
-        'uploaded_file'
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function uploadedFiles(): HasMany
+    {
+        return $this->hasMany(UploadedFile::class);
     }
 }

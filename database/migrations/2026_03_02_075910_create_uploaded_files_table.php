@@ -12,7 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('diary_entries', function (Blueprint $table) {
-            $table->text('uploaded_file')->nullable()->default(null);
+            $table->dropColumn('uploaded_file');
+        });
+
+        Schema::create('uploaded_files', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('diary_entry_id')->references('id')->on('diary_entries')->cascadeOnDelete();
+            $table->text('file_path');
+            $table->timestamps();
         });
     }
 
@@ -22,7 +29,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('diary_entries', function (Blueprint $table) {
-            $table->dropColumn('uploaded_file');
+            $table->text('uploaded_file')->nullable()->default(null);
         });
+
+        Schema::dropIfExists('uploaded_files');
     }
 };

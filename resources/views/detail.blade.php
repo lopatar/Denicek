@@ -83,9 +83,9 @@
             </div>
 
         </form>
-        @if($entry->uploaded_file !== null)
-        <a href="/entry/{{ $entry->id }}/file">Přiložený soubor</a>
-        @endif
+        @foreach($uploadedFiles as $file)
+        <a href="/file/{{ $file->id }}">Přiložený soubor</a>
+        @endforeach
     </div>
 
 </main>
