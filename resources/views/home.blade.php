@@ -39,6 +39,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
+            <!-- LEFT COLUMN -->
             <div class="lg:col-span-1">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 sticky top-8">
                     <h2 class="text-lg font-bold mb-4 text-gray-800">Nový záznam</h2>
@@ -52,8 +53,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Hodnocení
-                                (1-5)</label>
+                            <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Hodnocení (1-5)</label>
                             <input type="number" min="1" max="5" name="rating" placeholder="1 = Nejlepší"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
                                 required />
@@ -67,7 +67,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Soubor</label>                       
+                            <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Soubor</label>
                             <input type="file" name="uploaded_file" accept="image/png,image/jpg,image/jpeg"/>
                         </div>
 
@@ -79,6 +79,7 @@
                 </div>
             </div>
 
+            <!-- RIGHT COLUMN -->
             <div class="lg:col-span-2">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-gray-800">Záznamy</h2>
@@ -89,61 +90,121 @@
                         </span>
                         @if($average > 0)
                         <span class="px-3 py-1 rounded-full text-sm font-medium
-            {{ $average <= 2
-    ? 'bg-green-100 text-green-700'
-    : 'bg-orange-100 text-orange-700' }}">
+                            {{ $average <= 2
+                                ? 'bg-green-100 text-green-700'
+                                : 'bg-orange-100 text-orange-700' }}">
                             Průměrné hodnocení: {{ $average }}
                         </span>
                         @endif
                     </div>
                 </div>
+
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <table class="w-full text-left border-collapse">
-                        <thead class="bg-gray-50 border-b border-gray-200">
-                            <tr>
-                                <th class="px-6 py-3 text-xs font-bold uppercase text-gray-500">Datum</th>
-                                <th class="px-6 py-3 text-xs font-bold uppercase text-gray-500">Titulek</th>
-                                <th class="px-6 py-3 text-xs font-bold uppercase text-gray-500 text-center">Hodnocení
-                                </th>
-                                <th class="px-6 py-3 text-xs font-bold uppercase text-gray-500 text-right">Akce</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200">
-                            @foreach($entries as $entry)
-                                <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-6 py-4 text-sm text-gray-500">
-                                        {{ $entry->created_at->format('d.m.Y') }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-gray-900">
-                                        {{ Crypt::decryptString($entry->title) }}
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        <span
-                                            class="inline-flex items-center justify-center w-8 h-8 rounded-full {{ Crypt::decryptString($entry->rating) <= 2 ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700' }} font-bold text-sm">
-                                            {{ Crypt::decryptString($entry->rating) }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right space-x-2">
-                                        <div class="flex justify-end gap-2">
-                                            <button onclick="location.href='/entry/{{ $entry->id }}'"
-                                                class="text-indigo-600 hover:text-indigo-900 font-medium text-sm">Upravit</button>
-                                            <form method="POST" action="/entry/{{ $entry->id }}" class="inline">
-                                                @csrf @method('DELETE')
-                                                <button type="submit"
-                                                    class="text-red-600 hover:text-red-900 font-medium text-sm"
-                                                    onclick="return confirm('Opravdu smazat?')">Smazat</button>
-                                            </form>
+
+                    <!-- MOBILE CARDS -->
+                    <div class="md:hidden divide-y divide-gray-200">
+                        @forelse($entries as $entry)
+                            <div class="p-4 space-y-3">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <div class="text-sm text-gray-500">
+                                            {{ $entry->created_at->format('d.m.Y') }}
                                         </div>
-                                    </td>
+                                        <div class="font-semibold text-gray-900">
+                                            {{ Crypt::decryptString($entry->title) }}
+                                        </div>
+                                    </div>
+
+                                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-full
+                                        {{ Crypt::decryptString($entry->rating) <= 2
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'bg-orange-100 text-orange-700' }}
+                                        font-bold text-sm">
+                                        {{ Crypt::decryptString($entry->rating) }}
+                                    </span>
+                                </div>
+
+                                <div class="flex justify-end gap-4 pt-2 border-t border-gray-100">
+                                    <button onclick="location.href='/entry/{{ $entry->id }}'"
+                                        class="text-indigo-600 font-medium text-sm">
+                                        Upravit
+                                    </button>
+
+                                    <form method="POST" action="/entry/{{ $entry->id }}">
+                                        @csrf @method('DELETE')
+                                        <button type="submit"
+                                            class="text-red-600 font-medium text-sm"
+                                            onclick="return confirm('Opravdu smazat?')">
+                                            Smazat
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="p-6 text-center text-gray-500 italic">
+                                Zatím zde nejsou žádné záznamy.
+                            </div>
+                        @endforelse
+                    </div>
+
+                    <!-- DESKTOP TABLE -->
+                    <div class="hidden md:block overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-3 text-xs font-bold uppercase text-gray-500">Datum</th>
+                                    <th class="px-6 py-3 text-xs font-bold uppercase text-gray-500">Titulek</th>
+                                    <th class="px-6 py-3 text-xs font-bold uppercase text-gray-500 text-center">Hodnocení</th>
+                                    <th class="px-6 py-3 text-xs font-bold uppercase text-gray-500 text-right">Akce</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    @if(count($entries) == 0)
-                        <div class="p-8 text-center text-gray-500 italic">
-                            Zatím zde nejsou žádné záznamy.
-                        </div>
-                    @endif
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                @foreach($entries as $entry)
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 text-sm text-gray-500">
+                                            {{ $entry->created_at->format('d.m.Y') }}
+                                        </td>
+                                        <td class="px-6 py-4 font-medium text-gray-900">
+                                            {{ Crypt::decryptString($entry->title) }}
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full
+                                                {{ Crypt::decryptString($entry->rating) <= 2
+                                                    ? 'bg-green-100 text-green-700'
+                                                    : 'bg-orange-100 text-orange-700' }}
+                                                font-bold text-sm">
+                                                {{ Crypt::decryptString($entry->rating) }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <div class="flex justify-end gap-2">
+                                                <button onclick="location.href='/entry/{{ $entry->id }}'"
+                                                    class="text-indigo-600 hover:text-indigo-900 font-medium text-sm">
+                                                    Upravit
+                                                </button>
+
+                                                <form method="POST" action="/entry/{{ $entry->id }}">
+                                                    @csrf @method('DELETE')
+                                                    <button type="submit"
+                                                        class="text-red-600 hover:text-red-900 font-medium text-sm"
+                                                        onclick="return confirm('Opravdu smazat?')">
+                                                        Smazat
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        @if(count($entries) == 0)
+                            <div class="p-8 text-center text-gray-500 italic">
+                                Zatím zde nejsou žádné záznamy.
+                            </div>
+                        @endif
+                    </div>
+
                 </div>
             </div>
 
@@ -151,5 +212,4 @@
     </main>
 
 </body>
-
 </html>
