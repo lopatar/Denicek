@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('uploaded_files', function (Blueprint $table) {
             $table->id();
             $table->foreignId('diary_entry_id')->references('id')->on('diary_entries')->cascadeOnDelete();
-            $table->text('file_path');
+            $table->text('file_path')->isNotEmpty();
             $table->timestamps();
         });
     }
