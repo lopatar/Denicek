@@ -61,7 +61,7 @@ class DiaryController extends Controller
 
     public function file(UploadedFile $file)
     {
-        $this->ensureOwnership($file->entry()->get()[0]);
+        $this->ensureOwnership($file->diary_entry()->get()[0]);
         $filePath = Crypt::decryptString($file->file_path);
         $fileName = \explode('/', $filePath)[1];
 

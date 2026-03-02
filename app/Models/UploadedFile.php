@@ -12,8 +12,8 @@ class UploadedFile extends Model
         'file_path',
     ];
 
-    public function entry(): BelongsTo
+    public function diary_entry(): BelongsTo
     {
-        return $this->belongsTo(DiaryEntry::class, 'diary_entry_id');
+        return $this->belongsTo(DiaryEntry::class);
     }
 }
