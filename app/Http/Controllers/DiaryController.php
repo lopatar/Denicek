@@ -14,7 +14,9 @@ class DiaryController extends Controller
     public function index()
     {
          $entries = $this->getDiaryEntries();
+         
          return redirect('/page/' . $entries->lastPage());  
+         
     }
 
     public function page(int $page)

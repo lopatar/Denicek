@@ -197,15 +197,14 @@
                                 @endforeach
                             </tbody>
                         </table>
-
                         @if(count($entries) == 0)
                             <div class="p-8 text-center text-gray-500 italic">
                                 Zatím zde nejsou žádné záznamy.
                             </div>
                         @endif
                     </div>
-
                 </div>
+                <p><a href="/page/{{ $entries->currentPage() - 1 }}">Předchozí týden</a> | <a href="/page/{{ $entries->currentPage() + 1 }}">Další týden</a></p>
             </div>
 
         </div>
