@@ -204,7 +204,7 @@
                         @endif
                     </div>
                 </div>
-                <p><a href="/page/{{ $entries->currentPage() - 1 }}">Předchozí týden</a> | <a href="/page/{{ $entries->currentPage() + 1 }}">Další týden</a></p>
+                <p>@if($entries->currentPage() > 1)<a class="text-left" href="/page/{{ $entries->currentPage() - 1 }}">Předchozí týden</a> @endif @if($entries->currentPage() < $entries->lastPage())<a class="text-right" href="/page/{{ $entries->currentPage() + 1 }}">Další týden</a>@endif</p>
             </div>
 
         </div>
