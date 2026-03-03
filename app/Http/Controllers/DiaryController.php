@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\UploadedFile;
 use Illuminate\Http\Request;
 use App\Models\DiaryEntry;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,10 +13,13 @@ class DiaryController extends Controller
 {
     public function index()
     {
-        $diaryEntries = DiaryEntry::with('user')
-            ->latest()
-            ->where('user_id', auth()->user()->id)
-            ->get();
+         $entries = $this->getDiaryEntries();
+         return redirect('/page/' . $entries->lastPage());  
+    }
+
+    public function page(int $page)
+    {
+        $diaryEntries = $this->getDiaryEntries($page);
 
         $ratingTotal = 0;
         $entryCount = \count($diaryEntries);
@@ -128,5 +132,14 @@ class DiaryController extends Controller
         if (auth()->user()->id !== $entry->user_id) {
             abort(404);
         }
+    }
+
+    private function getDiaryEntries(?int $page = null): LengthAwarePaginator
+    {
+        return DiaryEntry::with('user')
+            ->latest()
+            ->where('user_id', auth()->user()->id)
+            ->take(7)
+            ->paginate(7, page: $page);
     }
 }

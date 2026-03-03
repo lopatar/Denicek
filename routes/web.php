@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function() {
     Route::get('/', [DiaryController::class,'index'])->name('home');
+    Route::get('/page/{page}', [DiaryController::class,'page']);
+
     Route::post('/entry', [DiaryController::class, 'store']);
     Route::delete('/entry/{entry}', [DiaryController::class, 'destroy']);
     

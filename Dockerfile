@@ -9,7 +9,7 @@ RUN apt update && \
     rm composer-setup.php
 
 RUN git clone https://github.com/lopatar/Denicek.git && cd Denicek && \
-    composer install && \
+    composer install --no-interaction && \
     cp .env.example .env && \
     php artisan migrate && \
     php artisan db:seed
