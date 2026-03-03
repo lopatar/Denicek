@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Storage;
 
 class DiaryController extends Controller
 {
-    public function index()
-    {
-         return redirect('/page/1');
-    }
-
     public function page(int $page)
     {
-        $diaryEntries = $this->getDiaryEntries($page);
+        $diaryEntries = DiaryEntry::with('user')
+            ->latest()
+            ->where('user_id', auth()->user()->id)
+            ->take(7)
+            ->paginate(7, page: $page);
+
         $average = \round($diaryEntries->avg('rating'), 1);
         return view('home', ['entries' => $diaryEntries, 'average' => $average]);
     }
@@ -120,14 +120,5 @@ class DiaryController extends Controller
         if (auth()->user()->id !== $entry->user_id) {
             abort(404);
         }
-    }
-
-    private function getDiaryEntries(?int $page = null): LengthAwarePaginator
-    {
-        return DiaryEntry::with('user')
-            ->latest()
-            ->where('user_id', auth()->user()->id)
-            ->take(7)
-            ->paginate(7, page: $page);
     }
 }
