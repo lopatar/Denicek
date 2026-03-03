@@ -22,7 +22,7 @@ class DiaryController extends Controller
     public function page(int $page)
     {
         $diaryEntries = $this->getDiaryEntries($page);
-        $average = $diaryEntries->avg('rating');
+        $average = \round($diaryEntries->avg('rating'), 1);
         return view('home', ['entries' => $diaryEntries, 'average' => $average]);
     }
 
