@@ -116,11 +116,11 @@
                                     </div>
 
                                     <span class="inline-flex items-center justify-center w-8 h-8 rounded-full
-                                        {{ Crypt::decryptString($entry->rating) <= 2
+                                        {{ $entry->rating <= 2
                                             ? 'bg-green-100 text-green-700'
                                             : 'bg-orange-100 text-orange-700' }}
                                         font-bold text-sm">
-                                        {{ Crypt::decryptString($entry->rating) }}
+                                        {{ $entry->rating }}
                                     </span>
                                 </div>
 
@@ -169,11 +169,11 @@
                                         </td>
                                         <td class="px-6 py-4 text-center">
                                             <span class="inline-flex items-center justify-center w-8 h-8 rounded-full
-                                                {{ Crypt::decryptString($entry->rating) <= 2
+                                                {{ $entry->rating <= 2
                                                     ? 'bg-green-100 text-green-700'
                                                     : 'bg-orange-100 text-orange-700' }}
                                                 font-bold text-sm">
-                                                {{ Crypt::decryptString($entry->rating) }}
+                                                {{ $entry->rating }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 text-right">

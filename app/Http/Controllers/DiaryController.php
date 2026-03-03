@@ -15,23 +15,14 @@ class DiaryController extends Controller
     {
          $entries = $this->getDiaryEntries();
          
-         return redirect('/page/' . $entries->lastPage());  
+         return redirect('/page/1');  
          
     }
 
     public function page(int $page)
     {
         $diaryEntries = $this->getDiaryEntries($page);
-
-        $ratingTotal = 0;
-        $entryCount = \count($diaryEntries);
-
-        foreach ($diaryEntries as $diaryEntry) {
-            $ratingTotal += \intval(Crypt::decryptString($diaryEntry->rating));
-        }
-
-        $average = ($entryCount > 0) ? \round($ratingTotal / $entryCount, 1) : 0;
-
+        $average = $diaryEntries->avg('rating');
         return view('home', ['entries' => $diaryEntries, 'average' => $average]);
     }
 
@@ -59,7 +50,6 @@ class DiaryController extends Controller
 
         $data['title'] = Crypt::encryptString($data['title']);
         $data['description'] = Crypt::encryptString($data['description']);
-        $data['rating'] = Crypt::encryptString($data['rating']);
 
         $entry->update($data);
         return redirect()->route('home');
@@ -87,7 +77,6 @@ class DiaryController extends Controller
 
         $data['title'] = Crypt::encryptString($data['title']);
         $data['description'] = Crypt::encryptString($data['description']);
-        $data['rating'] = Crypt::encryptString($data['rating']);
         
         /**
          * @var DiaryEntry $created

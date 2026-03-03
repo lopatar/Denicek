@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users');
             $table->text('title')->isNotEmpty();
             $table->text('description')->isNotEmpty();
-            $table->text('rating')->isNotEmpty();
+            $table->integer('rating')->unsigned()->isNotEmpty();
             $table->timestamps();
         });       
     }
