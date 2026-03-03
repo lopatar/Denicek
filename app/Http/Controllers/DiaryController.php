@@ -13,10 +13,7 @@ class DiaryController extends Controller
 {
     public function index()
     {
-         $entries = $this->getDiaryEntries();
-         
-         return redirect('/page/1');  
-         
+         return redirect('/page/1');
     }
 
     public function page(int $page)
