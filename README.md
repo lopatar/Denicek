@@ -5,6 +5,8 @@ Jednoduchá CRUD Laravel aplikace, která umožňuje uložení důležitých vzp
 - Podpora pro více uživatelů
 - Šifrovaná SQLite DB
 - Možnost přiložení souboru k danému dni (šifrované na disku) 
+- Stránkování jednotlivých týdnů
+    - Průměrné hodnocení
 
 ```shell
 git clone https://github.com/lopatar/Denicek.git && cd Denicek
