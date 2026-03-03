@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => Crypt::encryptString('test entry'),
                 'description' => Crypt::encryptString('test description'),
-                'rating' => Crypt::encryptString('1')
+                'rating' => 1
             ]
         );
     }
