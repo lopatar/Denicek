@@ -21,7 +21,7 @@ class FileController extends Controller
         }, $fileName);
     }
 
-    public function deleteFile(UploadedFile $file)
+    public function destroy(UploadedFile $file)
     {
         $this->ensureOwnership($file->diary_entry()->get()[0]);
         Storage::delete(Crypt::decryptString($file->file_path));

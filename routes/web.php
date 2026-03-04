@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function() {
     Route::post('/entry/{entry}/edit', [DiaryController::class,'update']);
 
     Route::get('/file/{file}', [FileController::class,'file']);
-    Route::delete('/file/{file}', [FileController::class,'deleteFile']);
+    Route::delete('/file/{file}', [FileController::class,'destroy']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });
