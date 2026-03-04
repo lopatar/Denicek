@@ -9,6 +9,7 @@ use App\Http\Controllers\EntryDetailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function() {
+    //Main route redirects to /page/1 so we automatically see the latest entries
     Route::redirect('/', '/page/1')->name('home');
     Route::get('/page/{page}', [DiaryController::class,'page']);
 
