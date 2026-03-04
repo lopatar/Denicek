@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\UploadedFile;
 use Illuminate\Http\Request;
 use App\Models\DiaryEntry;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
@@ -50,18 +49,6 @@ class DiaryController extends Controller
 
         $entry->update($data);
         return redirect()->route('home');
-    }
-
-    public function file(UploadedFile $file)
-    {
-        $this->ensureOwnership($file->diary_entry()->get()[0]);
-        $filePath = Crypt::decryptString($file->file_path);
-        //get the file name after folder name
-        $fileName = \explode('/', $filePath)[1];
-
-        return response()->streamDownload(function() use($filePath) {
-            echo Crypt::decrypt(Storage::get($filePath));
-        }, $fileName);
     }
 
     public function store(Request $request)

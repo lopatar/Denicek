@@ -84,8 +84,15 @@
 
         </form>
         @foreach($uploadedFiles as $file)
+        <div>
         <a href="/file/{{ $file->id }}">Přiložený soubor</a>
+        <form method="POST" action="/file/{{ $file->id }}">
+            @csrf
+            @method('DELETE')
+            <input type="submit" value="Smazat" onclick="return confirm('Opravdu smazat přiložený soubor?')">
+        </form>
         @endforeach
+        <div>
     </div>
 
 </main>

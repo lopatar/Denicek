@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\Register;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DiaryController;
 use App\Http\Controllers\EntryDetailController;
+use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function() {
@@ -18,7 +19,9 @@ Route::middleware('auth')->group(function() {
     
     Route::get('/entry/{entry}', [DiaryController::class, 'detail']);
     Route::post('/entry/{entry}/edit', [DiaryController::class,'update']);
-    Route::get('/file/{file}', [DiaryController::class,'file']);
+
+    Route::get('/file/{file}', [FileController::class,'file']);
+    Route::delete('/file/{file}', [FileController::class,'deleteFile']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });

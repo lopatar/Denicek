@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         //Create 3 users with the password "test" and create a diary entry for each of them.
         User::factory(3)->create(
-            ['password' => Hash::make('test')]
+            attributes: ['password' => Hash::make(value: 'test')]
         )->each(function (User $user) {
             $user->diaryEntries()->create([
                 'title' => Crypt::encryptString('test entry'),
