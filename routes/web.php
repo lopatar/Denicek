@@ -1,11 +1,7 @@
 <?php
 
-use App\Http\Controllers\Auth\Login;
-use App\Http\Controllers\Auth\Logout;
-use App\Http\Controllers\Auth\Register;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DiaryController;
-use App\Http\Controllers\EntryDetailController;
 use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 
