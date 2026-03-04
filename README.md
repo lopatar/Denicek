@@ -1,12 +1,13 @@
 # Deníček
 
-Jednoduchá CRUD Laravel aplikace, která umožňuje uložení důležitých vzpomínek.
+Laravel aplikace, která umožňuje uložení důležitých vzpomínek.
 
 - Podpora pro více uživatelů
 - Šifrovaná SQLite DB
 - Možnost přiložení souboru k danému dni (šifrované na disku) 
 - Stránkování jednotlivých týdnů
     - Průměrné hodnocení
+- **Podpora PWA (Progressive Web App)**
 
 ```shell
 git clone https://github.com/lopatar/Denicek.git && cd Denicek

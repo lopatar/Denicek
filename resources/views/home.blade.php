@@ -13,6 +13,7 @@
             font-family: 'Inter', sans-serif;
         }
     </style>
+    @PwaHead
 </head>
 
 <body class="bg-gray-50 text-gray-900 antialiased">
@@ -209,6 +210,6 @@
 
         </div>
     </main>
-
+@RegisterServiceWorkerScript
 </body>
 </html>

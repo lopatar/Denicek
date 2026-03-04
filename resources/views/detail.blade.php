@@ -9,6 +9,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
         body { font-family: 'Inter', sans-serif; }
     </style>
+    @PwaHead
 </head>
 <body class="bg-gray-50 text-gray-900 antialiased">
 
@@ -96,6 +97,6 @@
     </div>
 
 </main>
-
+@RegisterServiceWorkerScript
 </body>
 </html>
