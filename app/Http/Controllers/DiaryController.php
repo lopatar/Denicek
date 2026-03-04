@@ -104,7 +104,7 @@ class DiaryController extends Controller
         return back();
     }
 
-    private function ensureOwnership(DiaryEntry $entry): void
+    public function ensureOwnership(DiaryEntry $entry)
     {
         //Return 404 to avoid entry enumeration
         if (auth()->user()->id !== $entry->user_id) {
