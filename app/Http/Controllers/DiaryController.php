@@ -56,6 +56,7 @@ class DiaryController extends Controller
     {
         $this->ensureOwnership($file->diary_entry()->get()[0]);
         $filePath = Crypt::decryptString($file->file_path);
+        //get the file name after folder name
         $fileName = \explode('/', $filePath)[1];
 
         return response()->streamDownload(function() use($filePath) {
@@ -103,6 +104,7 @@ class DiaryController extends Controller
         $this->ensureOwnership($entry);
         
         /**
+         * Delete the uploaded files from disk
          * @var UploadedFile $file
          */
         foreach ($entry->uploadedFiles()->get() as $file)
@@ -117,6 +119,7 @@ class DiaryController extends Controller
 
     private function ensureOwnership(DiaryEntry $entry): void
     {
+        //Return 404 to avoid entry enumeration
         if (auth()->user()->id !== $entry->user_id) {
             abort(404);
         }

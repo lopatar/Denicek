@@ -34,6 +34,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+        //If user with specified email already exists, redirect back.
         if (User::where('email', $credentials['email'])->exists())
         { 
             return back();

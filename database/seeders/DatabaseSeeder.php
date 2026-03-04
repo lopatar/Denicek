@@ -18,8 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        //Create 3 users with the password "test" and create a diary entry for each of them.
         User::factory(3)->create(
             ['password' => Hash::make('test')]
         )->each(function (User $user) {
