@@ -115,7 +115,7 @@ class DiaryController extends Controller
         return back();
     }
 
-    private function ensureOwnership(DiaryEntry $entry)
+    private function ensureOwnership(DiaryEntry $entry): void
     {
         if (auth()->user()->id !== $entry->user_id) {
             abort(404);

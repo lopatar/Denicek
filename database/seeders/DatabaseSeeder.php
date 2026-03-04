@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\DiaryEntry;
 use App\Models\User;
 use Crypt;
 use Hash;
@@ -24,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
             'password' => Hash::make('test')
         ]);
-
+        
         $firstUser->diaryEntries()->create(
             [
                 'title' => Crypt::encryptString('test entry'),
