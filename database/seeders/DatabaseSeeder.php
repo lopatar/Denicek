@@ -20,18 +20,14 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $firstUser = User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => Hash::make('test')
-        ]);
-        
-        $firstUser->diaryEntries()->create(
-            [
+        User::factory(3)->create(
+            ['password' => Hash::make('test')]
+        )->each(function (User $user) {
+            $user->diaryEntries()->create([
                 'title' => Crypt::encryptString('test entry'),
-                'description' => Crypt::encryptString('test description'),
+                'description' => Crypt::encryptString("Hello $user->name, test entry"),
                 'rating' => 1
-            ]
-        );
+            ]);
+        });
     }
 }
