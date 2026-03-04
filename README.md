@@ -7,7 +7,7 @@ Laravel aplikace, která umožňuje uložení důležitých vzpomínek.
 - Možnost přiložení souboru k danému dni (šifrované na disku) 
 - Stránkování jednotlivých týdnů
     - Průměrné hodnocení
-- **Podpora PWA (Progressive Web App)**
+- **Podpora PWA (Progressive Web App)** (Logo generováno pomocí Perchance)
 
 ```shell
 git clone https://github.com/lopatar/Denicek.git && cd Denicek
