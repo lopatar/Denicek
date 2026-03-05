@@ -13,6 +13,7 @@ Laravel aplikace, která umožňuje uložení důležitých vzpomínek.
 git clone https://github.com/lopatar/Denicek.git && cd Denicek
 composer install
 cp .env.example .env
+php artisan key:generate
 php artisan migrate
 php artisan db:seed
 php artisan serve
