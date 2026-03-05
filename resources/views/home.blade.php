@@ -163,7 +163,7 @@
                                 @foreach($entries as $entry)
                                     <tr class="hover:bg-gray-50 transition-colors">
                                         <td class="px-6 py-4 text-sm text-gray-500">
-                                            {{ $entry->created_at->format('d.m.Y') }}
+                                            {{ $entry->created_at->timezone('CET')->format('d.m.Y') }}
                                         </td>
                                         <td class="px-6 py-4 font-medium text-gray-900">
                                             {{ Crypt::decryptString($entry->title) }}

@@ -89,7 +89,7 @@
     <div class="text-sm text-gray-500">
         Aktualizováno:
         <span class="font-medium text-gray-700">
-            {{ $entry->updated_at->format('d.m.Y H:i') }}
+            {{ $entry->updated_at->timezone('CET')->format('d.m.Y H:i') }}
         </span>
     </div>
 

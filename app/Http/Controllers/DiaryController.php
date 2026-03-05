@@ -40,7 +40,7 @@ class DiaryController extends Controller
         if ($showTodayAlert) {
             session([
                 'shownTodayAlert' => true,
-                'showTodayAlertAgain' => Carbon::tomorrow(),
+                'showTodayAlertAgain' => Carbon::tomorrow()
             ]);
         }
 
