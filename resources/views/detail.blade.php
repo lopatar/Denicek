@@ -84,17 +84,46 @@
             </div>
 
         </form>
-        @foreach($uploadedFiles as $file)
-        <div>
-        <a href="/file/{{ $file->id }}">Přiložený soubor</a>
-        <form method="POST" action="/file/{{ $file->id }}">
-            @csrf
-            @method('DELETE')
-            <input type="submit" value="Smazat" onclick="return confirm('Opravdu smazat přiložený soubor?')">
-        </form>
-        @endforeach
-        <div>
+<div class="border-t border-gray-200 mt-8 pt-6 space-y-6">
+
+    <div class="text-sm text-gray-500">
+        Aktualizováno:
+        <span class="font-medium text-gray-700">
+            {{ $entry->updated_at->format('d.m.Y H:i') }}
+        </span>
     </div>
+
+    @if(count($uploadedFiles))
+    <div>
+        <h3 class="text-sm font-semibold text-gray-700 mb-3">Přiložené soubory</h3>
+
+        <div class="space-y-3">
+            @foreach($uploadedFiles as $file)
+            <div class="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-lg px-4 py-3">
+
+                <a href="/file/{{ $file->id }}"
+                   class="text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:underline">
+                    📎 Přiložený soubor
+                </a>
+
+                <form method="POST" action="/file/{{ $file->id }}">
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit"
+                        onclick="return confirm('Opravdu smazat přiložený soubor?')"
+                        class="text-sm text-red-600 hover:text-red-700 font-medium">
+                        Smazat
+                    </button>
+                </form>
+
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
+</div>
 
 </main>
 @RegisterServiceWorkerScript
