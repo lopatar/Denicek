@@ -211,5 +211,10 @@
         </div>
     </main>
 @RegisterServiceWorkerScript
+@if($showTodayAlert)
+<script>
+    alert('Nezapomeň na dnešní záznam!');
+</script>
+@endif
 </body>
 </html>

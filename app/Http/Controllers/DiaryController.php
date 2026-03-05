@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UploadedFile;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\DiaryEntry;
 use Illuminate\Support\Facades\Crypt;
@@ -18,8 +19,32 @@ class DiaryController extends Controller
             ->take(7)
             ->paginate(7, page: $page);
 
+        /**
+         * @var \Illuminate\Support\Carbon $showTodayAlertAgain
+         */
+        $showTodayAlertAgain = session()->get('showTodayAlertAgain');
+
+        //If saved tomorrow time indicating showing the alert had passed, reset the session variable
+        if ($showTodayAlertAgain?->isNowOrPast())
+        {
+            session([
+                'shownTodayAlert' => false
+            ]);
+        }
+
+        //If we are on the main page AND there are no entries made today AND we did not show the alert yet. It is a reminder not to forget the todays entry.
+        $showTodayAlert = $page === 1 && !DiaryEntry::whereToday('created_at')->exists() && !session()->get('shownTodayAlert');
+
+        //If we are showing the alert, set a session variable indicating its been shown and save tomorrow time for the alert to be reset.
+        if ($showTodayAlert) {
+            session([
+                'shownTodayAlert' => true,
+                'showTodayAlertAgain' => Carbon::tomorrow()
+            ]);
+        }
+
         $average = \round($diaryEntries->avg('rating'), 1);
-        return view('home', ['entries' => $diaryEntries, 'average' => $average]);
+        return view('home', ['entries' => $diaryEntries, 'average' => $average, 'showTodayAlert' => $showTodayAlert]);
     }
 
     public function detail(DiaryEntry $entry)
