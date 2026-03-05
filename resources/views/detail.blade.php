@@ -20,7 +20,7 @@
                 <span class="text-sm text-gray-500">Úprava záznamu</span>
                 <span class="font-semibold text-indigo-600">{{ auth()->user()->name }}</span>
             </div>
-            <button onclick="location.href='/'" 
+            <button onclick="location.href='{{ route('home') }}'" 
                 class="text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors">
                 ← Zpět na přehled
             </button>

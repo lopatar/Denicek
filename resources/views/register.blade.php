@@ -56,7 +56,7 @@
             </div>
 
             <div class="flex items-center justify-between pt-2">
-                <a href="/login" 
+                <a href="{{ route('login') }}" 
                    class="text-sm text-indigo-600 hover:text-indigo-800 font-medium transition-colors">
                     Přihlášení
                 </a>

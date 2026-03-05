@@ -59,7 +59,7 @@
             </div>
 
             <div class="flex items-center justify-between pt-2">
-                <a href="/register" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium transition-colors">
+                <a href="{{ route('register') }}" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium transition-colors">
                     Registrace
                 </a>
 
