@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DiaryEntry;
 use App\Models\UploadedFile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\DiaryEntry;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,26 +24,28 @@ class DiaryController extends Controller
          */
         $showTodayAlertAgain = session()->get('showTodayAlertAgain');
 
-        //If saved tomorrow time indicating showing the alert had passed, reset the session variable
-        if ($showTodayAlertAgain?->isNowOrPast())
-        {
+        // If saved tomorrow time indicating showing the alert had passed, reset the session variable
+        if ($showTodayAlertAgain?->isNowOrPast()) {
             session([
-                'shownTodayAlert' => false
+                'shownTodayAlert' => false,
             ]);
         }
 
-        //If we are on the main page AND there are no entries made today AND we did not show the alert yet. It is a reminder not to forget the todays entry.
-        $showTodayAlert = $page === 1 && !DiaryEntry::whereToday('created_at')->exists() && !session()->get('shownTodayAlert');
+        // If we are on the main page AND there are no entries made today AND we did not show the alert yet. It is a reminder not to forget the todays entry.
+        $showTodayAlert = $page === 1
+            && !DiaryEntry::whereToday('created_at')->exists()
+            && !session()->get('shownTodayAlert');
 
-        //If we are showing the alert, set a session variable indicating its been shown and save tomorrow time for the alert to be reset.
+        // If we are showing the alert, set a session variable indicating its been shown and save tomorrow time for the alert to be reset.
         if ($showTodayAlert) {
             session([
                 'shownTodayAlert' => true,
-                'showTodayAlertAgain' => Carbon::tomorrow()
+                'showTodayAlertAgain' => Carbon::tomorrow(),
             ]);
         }
 
         $average = \round($diaryEntries->avg('rating'), 1);
+
         return view('home', ['entries' => $diaryEntries, 'average' => $average, 'showTodayAlert' => $showTodayAlert]);
     }
 
@@ -66,13 +68,14 @@ class DiaryController extends Controller
         $data = $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
-            'rating' => 'required|integer|min:1|max:5'
+            'rating' => 'required|integer|min:1|max:5',
         ]);
 
         $data['title'] = Crypt::encryptString($data['title']);
         $data['description'] = Crypt::encryptString($data['description']);
 
         $entry->update($data);
+
         return redirect()->route('home');
     }
 
@@ -82,28 +85,27 @@ class DiaryController extends Controller
             'title' => 'required|string',
             'description' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
-            'uploaded_file' => 'file'
+            'uploaded_file' => 'file',
         ]);
 
         $data['title'] = Crypt::encryptString($data['title']);
         $data['description'] = Crypt::encryptString($data['description']);
-        
+
         /**
          * @var DiaryEntry $created
          */
         $created = auth()->user()->diaryEntries()->create($data);
 
         $file = $request->allFiles();
-        
+
         if ($file !== null) {
-            foreach ($file as $f)
-            {
+            foreach ($file as $f) {
                 $fileContent = Crypt::encrypt($f->get());
-                $filePath = 'files/' . $f->hashName();
+                $filePath = 'files/'.$f->hashName();
                 Storage::put($filePath, $fileContent);
                 $filePath = Crypt::encryptString($filePath);
                 $created->uploadedFiles()->create([
-                    'file_path' => $filePath
+                    'file_path' => $filePath,
                 ]);
             }
         }
@@ -114,13 +116,13 @@ class DiaryController extends Controller
     public function destroy(DiaryEntry $entry)
     {
         $this->ensureOwnership($entry);
-        
+
         /**
          * Delete the uploaded files from disk
+         *
          * @var UploadedFile $file
          */
-        foreach ($entry->uploadedFiles()->get() as $file)
-        {
+        foreach ($entry->uploadedFiles()->get() as $file) {
             Storage::delete(Crypt::decryptString($file->file_path));
         }
 
@@ -131,7 +133,7 @@ class DiaryController extends Controller
 
     public function ensureOwnership(DiaryEntry $entry)
     {
-        //Return 404 to avoid entry enumeration
+        // Return 404 to avoid entry enumeration
         if (auth()->user()->id !== $entry->user_id) {
             abort(404);
         }

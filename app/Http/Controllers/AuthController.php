@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -15,10 +15,11 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
- 
+
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
-             $request->session()->regenerate();
-             return redirect()->route('home');
+            $request->session()->regenerate();
+
+            return redirect()->route('home');
         }
 
         return back()
@@ -34,18 +35,17 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        //If user with specified email already exists, redirect back.
-        if (User::where('email', $credentials['email'])->exists())
-        { 
+        // If user with specified email already exists, redirect back.
+        if (User::where('email', $credentials['email'])->exists()) {
             return back();
         }
 
         $user = User::create([
             'name' => $credentials['name'],
-            'email'=> $credentials['email'],
+            'email' => $credentials['email'],
             'password' => Hash::make($credentials['password']),
         ]);
-        
+
         Auth::login($user);
 
         return redirect()->route('home');
