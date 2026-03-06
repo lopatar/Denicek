@@ -6,7 +6,9 @@ use App\Models\DiaryEntry;
 use App\Models\UploadedFile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
 class DiaryController extends Controller
@@ -15,7 +17,7 @@ class DiaryController extends Controller
     {
         $diaryEntries = DiaryEntry::with('user')
             ->latest()
-            ->where('user_id', auth()->user()->id)
+            ->where('user_id', Auth::user()->id)
             ->take(7)
             ->paginate(7, page: $page);
 
@@ -76,7 +78,7 @@ class DiaryController extends Controller
 
         $entry->update($data);
 
-        return redirect()->route('home');
+        return Redirect::route('home');
     }
 
     public function store(Request $request)
@@ -94,7 +96,7 @@ class DiaryController extends Controller
         /**
          * @var DiaryEntry $created
          */
-        $created = auth()->user()->diaryEntries()->create($data);
+        $created = Auth::user()->diaryEntries()->create($data);
 
         $file = $request->allFiles();
 
@@ -110,7 +112,7 @@ class DiaryController extends Controller
             }
         }
 
-        return redirect("/entry/$created->id");
+        return Redirect::route("/entry/$created->id");
     }
 
     public function destroy(DiaryEntry $entry)
@@ -134,7 +136,7 @@ class DiaryController extends Controller
     public function ensureOwnership(DiaryEntry $entry)
     {
         // Return 404 to avoid entry enumeration
-        if (auth()->user()->id !== $entry->user_id) {
+        if (Auth::user()->id !== $entry->user_id) {
             abort(404);
         }
     }

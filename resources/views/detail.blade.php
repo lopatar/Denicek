@@ -72,7 +72,7 @@
 
             <div class="flex justify-end gap-4 pt-4">
                 <button type="button"
-                        onclick="location.href='/'"
+                        onclick="location.href='{{ route('home') }}'"
                         class="px-5 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
                     Zrušit
                 </button>

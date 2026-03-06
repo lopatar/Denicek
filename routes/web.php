@@ -13,7 +13,7 @@ Route::middleware('auth')->group(function() {
     Route::post('/entry', [DiaryController::class, 'store']);
     Route::delete('/entry/{entry}', [DiaryController::class, 'destroy']);
     
-    Route::get('/entry/{entry}', [DiaryController::class, 'detail']);
+    Route::get('/entry/{entry}', [DiaryController::class, 'detail'])->name('entryDetail');
     Route::post('/entry/{entry}/edit', [DiaryController::class,'update']);
 
     Route::get('/file/{file}', [FileController::class,'file']);
