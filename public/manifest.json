@@ -1,9 +1,9 @@
 {
-    "name": "Denicek",
-    "short_name": "Denicek",
+    "name": "Lopatar - Den\u00ed\u010dek",
+    "short_name": "Den\u00ed\u010dek",
     "background_color": "#6777ef",
     "display": "fullscreen",
-    "description": "Lopatar - Denicek",
+    "description": "Lopatar - Den\u00ed\u010dek",
     "theme_color": "#6777ef",
     "start_url": "/",
     "icons": [

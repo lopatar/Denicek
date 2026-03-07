@@ -19,11 +19,11 @@ return [
     */
 
     'manifest' => [
-        'name' => 'Denicek',
-        'short_name' => 'Denicek',
+        'name' => 'Lopatar - Deníček',
+        'short_name' => 'Deníček',
         'background_color' => '#6777ef',
         'display' => 'fullscreen',
-        'description' => 'Lopatar - Denicek',
+        'description' => 'Lopatar - Deníček',
         'theme_color' => '#6777ef',
         'icons' => [
             [
