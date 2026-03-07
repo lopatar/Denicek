@@ -33,7 +33,7 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|string',
         ]);
 
         // If user with specified email already exists, redirect back.
@@ -56,7 +56,6 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        // Invalidate session
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
