@@ -49,7 +49,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home');
+        return Redirect::route('home');
     }
 
     public function logout(Request $request)
@@ -60,6 +60,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return Redirect::route('login');
     }
 }

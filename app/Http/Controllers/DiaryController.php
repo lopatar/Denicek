@@ -112,7 +112,7 @@ class DiaryController extends Controller
             }
         }
 
-        return Redirect::route("/entry/$created->id");
+        return Redirect::to("/entry/$created->id");
     }
 
     public function destroy(DiaryEntry $entry)
