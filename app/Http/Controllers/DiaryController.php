@@ -21,6 +21,10 @@ class DiaryController extends Controller
             ->take(7)
             ->paginate(7, page: $page);
 
+        $entryCount = DiaryEntry::with('user')
+            ->where('user_id', Auth::user()->id)
+            ->count();
+
         /**
          * @var \Illuminate\Support\Carbon $showTodayAlertAgain
          */
@@ -48,7 +52,7 @@ class DiaryController extends Controller
 
         $average = \round($diaryEntries->avg('rating'), 1);
 
-        return view('home', ['entries' => $diaryEntries, 'average' => $average, 'showTodayAlert' => $showTodayAlert]);
+        return view('home', ['entries' => $diaryEntries, 'entryCount' => $entryCount, 'average' => $average, 'showTodayAlert' => $showTodayAlert]);
     }
 
     public function detail(DiaryEntry $entry)

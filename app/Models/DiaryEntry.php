@@ -12,6 +12,7 @@ class DiaryEntry extends Model
         'title',
         'description',
         'rating',
+        'created_at'
     ];
 
     public function user(): BelongsTo

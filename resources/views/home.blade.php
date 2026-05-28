@@ -87,14 +87,14 @@
 
                     <div class="flex gap-3">
                         <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">
-                            Celkem: {{ count($entries) }}
+                            Celkem: {{ $entryCount }}
                         </span>
                         @if($average > 0)
                         <span class="px-3 py-1 rounded-full text-sm font-medium
                             {{ $average <= 2
                                 ? 'bg-green-100 text-green-700'
                                 : 'bg-orange-100 text-orange-700' }}">
-                            Průměrné hodnocení: {{ $average }}
+                            Průměrné týdenní hodnocení: {{ $average }}
                         </span>
                         @endif
                     </div>
